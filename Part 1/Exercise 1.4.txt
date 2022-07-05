@@ -1,0 +1,10 @@
+Commands used to fix:
+docker run -d --rm -it --name fourth ubuntu sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'
+docker exec -it fourth bash
+    apt update
+    apt install curl
+
+Commands used to start:
+(in other terminal)
+docker attach fourth
+    helsinki.fi
