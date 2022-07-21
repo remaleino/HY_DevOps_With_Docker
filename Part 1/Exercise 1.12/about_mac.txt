@@ -1,0 +1,2 @@
+To run application in port 5000 on Mac Monterey,
+you need first to turn of AirPlay Receiver in Sharing Preferences.
