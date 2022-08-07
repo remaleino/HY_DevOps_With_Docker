@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    container_name: db_postgres
+    ports:
+      - 5432:5432
+  front-end:
+    image: example-frontend
+    build: ./example-frontend
+    ports:
+      - 5000:5000
+    environment:
+      - REACT_APP_BACKEND_URL= http://localhost:8080/
+
+  back-end:
+      build: ./example-backend
+      command: ./server
+      image: example-backend
+      restart: unless-stopped
+      environment:
+        - REDIS_HOST=redis-server
+        - POSTGRES_HOST=db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DATABASE=postgres
+      expose:
+        - 8080
+      ports:
+        - 8080:8080
+      depends_on:
+        - redis-server
+        - db
+
+  redis-server:
+    image: redis:alpine
+    command: redis-server
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
