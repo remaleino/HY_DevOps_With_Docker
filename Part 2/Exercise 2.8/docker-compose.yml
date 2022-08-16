@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: reverse_webserver
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    depends_on:
+      - back-end
+      - front-end
+    #links:
+    #  - front-end
+    #  - back-end
+    networks:
+      - app-network
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    container_name: db_postgres
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+
+  front-end:
+    image: example-frontend
+    build: ./example-frontend
+    container_name: front-end
+    ports:
+      - 5000:5000
+    #environment:
+    #  - REACT_APP_BACKEND_URL= http://localhost:8080/
+    networks:
+      - app-network
+
+  back-end:
+      build: ./example-backend
+      command: ./server
+      image: example-backend
+      container_name: back-end
+      restart: unless-stopped
+      environment:
+        - REDIS_HOST=redis-server
+        - POSTGRES_HOST=db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DATABASE=postgres
+      expose:
+        - 8080
+      #ports:
+      #  - 127.0.0.1:8080:8080
+      depends_on:
+        - redis-server
+        - db
+      networks:
+        - app-network
+
+  redis-server:
+    image: redis:alpine
+    command: redis-server
+    container_name: redis
+    ports:
+      - 6379:6379
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - app-network
+
+networks:
+  app-network:

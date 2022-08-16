@@ -1,0 +1,2 @@
+To make the connection between a frond-end and a back-end work,
+I did change REQUEST_ORIGIN in the back-end to "http://localhost" and REACT_APP_BACKEND_URL in the front-end to "http://localhost/api/".
