@@ -1,0 +1,8 @@
+Choose the uni project https://github.com/remaleino/Guestbook
+as the example.
+The project is mono-app, etc. it run the fron-end and the back-end.
+To make the app work, I:
+1. Created a Dockerfile, where did mention all obligatory procedures
+to start the app: instaling node, creating working directory, copying package.json, intalling package.json,
+copying the app-dicrecory, exposing the app in port 3000 and commanding to start the server.
+2. Created a docker-compose.yml file to more easily control the images and containers. Did add ports-configuration.
