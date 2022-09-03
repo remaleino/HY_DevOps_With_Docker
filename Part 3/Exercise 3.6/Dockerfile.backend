@@ -1,0 +1,13 @@
+FROM golang:1.16-alpine as build
+WORKDIR /usr/src/app
+COPY . .
+RUN adduser -SD appuser && chown -R appuser /usr/src/app && \
+    go mod download && CGO_ENABLED=0 go build -o /usr/bin/app
+USER appuser
+
+FROM scratch
+COPY --from=build /usr/bin/app /
+#RUN adduser -SD appuser && chown -R appuser /usr/src/app
+#USER appuser
+EXPOSE 8080
+ENTRYPOINT ["./app"]

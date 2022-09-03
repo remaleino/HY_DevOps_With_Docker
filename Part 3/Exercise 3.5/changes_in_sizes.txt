@@ -1,0 +1,6 @@
+Back-end:
+    ubuntu:18.04 = 934.25mb
+    golang:1.16-alpine = 440.32mb
+Font-end:
+    ubuntu:18.04 = 541.2mb
+    node:16-alpine = 436.37mb
