@@ -1,3 +1,3 @@
 Following are Dockerfiles' images sizes build on my personal laptop:
 - Back-end: 17.08mb
-- Front-end: 
+- Front-end: 440.17mb
